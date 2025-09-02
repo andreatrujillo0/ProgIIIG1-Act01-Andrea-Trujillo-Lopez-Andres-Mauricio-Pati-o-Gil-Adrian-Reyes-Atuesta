@@ -1,0 +1,53 @@
+hombre(homero).
+hombre(abraham).
+hombre(herb).
+hombre(clancy).
+hombre(bart).
+mujer(mona).
+mujer(marge).
+mujer(jaqueline).
+mujer(patty).
+mujer(selma).
+mujer(ling).
+mujer(lisa).
+mujer(maggie).
+
+es_progenitor(abraham, homero).
+es_progenitor(abraham, herb).
+es_progenitor(mona, homero).
+es_progenitor(mona, herb).
+es_progenitor(clancy, marge).
+es_progenitor(clancy, patty).
+es_progenitor(clancy, selma).
+es_progenitor(jaqueline, marge).
+es_progenitor(jaqueline, patty).
+es_progenitor(jaqueline, selma).
+es_progenitor(selma , ling).
+es_progenitor(homero, bart).
+es_progenitor(homero, lisa).
+es_progenitor(homero, maggie).
+es_progenitor(marge, bart).
+es_progenitor(marge, lisa).
+es_progenitor(marge, maggie).
+
+es_pareja(homero, marge).
+es_pareja(marge, homero).
+es_pareja(clancy, jaqueline).
+es_pareja(jaqueline, clancy).
+es_pareja(abraham, mona).
+es_pareja(mona, abraham).
+
+es_abuelo(X, Y):- es_progenitor(X, Z), es_progenitor(Z, Y), hombre(X).
+es_abuela(X, Y):- es_progenitor(X, Z), es_progenitor(Z, Y), mujer(X).
+es_esposo(X, Y):- es_pareja(X, Y), hombre(X).
+es_esposa(X, Y):- es_pareja(X, Y), mujer(X).
+es_hermano(X, Y):- es_progenitor(Z, X), es_progenitor(Z, Y), X \== Y, hombre(X), hombre(Z).
+es_hermana(X, Y):- es_progenitor(Z, X), es_progenitor(Z, Y), X \== Y, mujer(X), hombre(Z).
+es_tio(X, Y):- es_hermano(X, Z), es_progenitor(Z, Y), hombre(X). 
+es_tia(X, Y):- es_hermana(X, Z), es_progenitor(Z, Y), mujer(X). 
+es_nieto(X, Y):- es_progenitor(Y, Z), es_progenitor(Z, X), hombre(X).
+es_nieta(X, Y):- es_progenitor(Y, Z), es_progenitor(Z, X), mujer(X).
+es_primo(X, Y):- es_tia(Z, X), es_progenitor(Z, Y), hombre(X).
+es_prima(X, Y):- es_tia(Z, X), es_progenitor(Z, Y), mujer(X).
+es_sobrino(X, Y):- (es_hermano(Y, Z); es_hermana(Y, Z)), es_progenitor(Z, X), hombre(X). 
+es_sobrina(X, Y):- (es_hermano(Y, Z); es_hermana(Y, Z)), es_progenitor(Z, X), mujer(X).
